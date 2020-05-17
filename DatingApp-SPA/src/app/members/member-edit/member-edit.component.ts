@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
+  photoUrl: string;
+
   constructor(private route: ActivatedRoute, private alertify: AlertifyService,
               private userService: UserService,
               private authService: AuthService
@@ -28,6 +30,7 @@ export class MemberEditComponent implements OnInit {
       this.route.data.subscribe(data => {
         this.user = data['user'];
       });
+      this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl );
   }
   updateUser(){
      this.userService.udpdateUser(this.authService.decodedToken.nameid, this.user)
@@ -38,6 +41,10 @@ export class MemberEditComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
+  }
+  updateMainPhoto(photoUrl){
+    this.user.photoUrl = photoUrl;
+    this.authService.changeMemberPhoto(photoUrl);
   }
 
 }

@@ -9,14 +9,19 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 export class AppComponent implements OnInit {
   title = 'Dating App';
   jwtHelper = new JwtHelperService();
-
   constructor(private authService: AuthService){
 
   }
   ngOnInit() {
     const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user')) ;
     if (token){
         this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    }
+    if (user){
+      this.authService.currentUser = user;
+      console.log('appcomponent',user);
+      this.authService.changeMemberPhoto(user.photoUrl);
     }
   }
 }
