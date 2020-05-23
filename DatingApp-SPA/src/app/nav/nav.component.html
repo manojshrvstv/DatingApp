@@ -18,7 +18,7 @@
         <img src="{{photoUrl || '../../../assets/user.png'}}"/>
       </span>
       <a class="dropdown-toggle text-light" dropdownToggle (click)="false">
-        Welcome {{this.authService.decodedToken?.unique_name|titlecase}}
+        Welcome {{this.authService.decodedToken?.unique_name | titlecase}}
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu role="menu" aria-labelledby="basic-link">
         <a class="dropdown-item" [routerLink]="['/member/edit']"><i class="fa fa-user"></i>Edit Profile</a>
