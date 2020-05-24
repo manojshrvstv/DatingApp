@@ -19,6 +19,7 @@ namespace DatingApp.API.Controllers
     public class UsersController:ControllerBase
     {
         private readonly IDatingRepository _repo;
+
         private readonly IMapper _mapper;
 
         public UsersController(IDatingRepository repo,IMapper mapper)
@@ -28,12 +29,25 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await this._repo.GetUsers();
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var userFromRepo = await this._repo.GetUser(currentUserId);
+            userParams.UserId = currentUserId;
+            if(string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await this._repo.GetUsers(userParams);
             var userToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
             return Ok(userToReturn);
         }
+
         [HttpGet("{id}",Name ="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -41,6 +55,7 @@ namespace DatingApp.API.Controllers
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
             return Ok(userToReturn);
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id,UserForUpdateDto userForUpdateDto)
         {
