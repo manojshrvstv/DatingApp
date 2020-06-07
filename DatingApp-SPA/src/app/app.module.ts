@@ -37,6 +37,7 @@ import { PreventUsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { ListResolver } from './_resolvers/lists.resolver';
 
 
 
@@ -91,7 +92,8 @@ export function tokenGetter(){
       MemberListResolver,
       MemberEditResolver,
       PreventUsavedChanges,
-      MessagesResolver
+      MessagesResolver,
+      ListResolver
    ],
    bootstrap: [
       AppComponent

@@ -15,7 +15,7 @@ export class MemberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
-  @ViewChild('memberTabs',{static: true}) memberTabs: TabsetComponent;
+  @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
   constructor(private userService: UserService, private alertify: AlertifyService
     ,         private route: ActivatedRoute) { }
 
@@ -24,9 +24,9 @@ export class MemberDetailComponent implements OnInit {
       this.user = data['user'];
     });
 
-    this.route.queryParams.subscribe(params =>{
+    this.route.queryParams.subscribe(params => {
       const selectedTab = params['tab'];
-      this.memberTabs.tabs[selectedTab>0?selectedTab:0].active=true;
+      this.memberTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
     })  
 
     this.galleryOptions = [
@@ -50,14 +50,14 @@ export class MemberDetailComponent implements OnInit {
         big: photo.url,
         description: photo.description
       });
-      console.log(photo);
+     
     }
 
     return imageUrls;
   }
 
   selectTab(tabId: number){
-    this.memberTabs.tabs[tabId].active=true;
+    this.memberTabs.tabs[tabId].active = true;
   }
 
 }
